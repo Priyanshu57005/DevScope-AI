@@ -206,7 +206,26 @@ cd frontend
 npm install
 npm run dev
 ```
+## 🐳 Docker
 
+### Build Images
+
+```bash
+docker build -t devscope-backend ./backend
+docker build -t devscope-frontend ./frontend
+```
+
+### Run Backend
+
+```bash
+docker run -p 3000:3000 --env-file backend/.env devscope-backend
+```
+
+### Run Frontend
+
+```bash
+docker run -p 5173:5173 devscope-frontend
+```
 ---
 
 ## 🔑 Environment Variables
