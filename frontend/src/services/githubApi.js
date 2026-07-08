@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "https://devscope-ai-production.up.railway.app/api";
 
 export async function fetchUserProfile(username) {
   const response = await fetch(`${BASE_URL}/profile/${username}`);
