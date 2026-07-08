@@ -10,9 +10,9 @@ The project is built with scalability and clean architecture in mind, following 
 
 ##  Live Demo
 
-**Frontend:** (Vercel)_
+**Frontend:** https://devscopeai-analyzer.netlify.app/(Netlify)_
 
-**Backend API:** (Railway + Docker)_
+**Backend API:** https://devscope-ai-production.up.railway.app/(Railway + Docker)_
 
 ---
 
