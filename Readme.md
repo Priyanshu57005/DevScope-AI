@@ -1,27 +1,95 @@
-#  DevScope AI
+# DevScope AI
 
 > **AI-Powered GitHub Developer Analytics Platform**
 
-DevScope AI is a full-stack MERN application that analyzes GitHub developer profiles beyond the basic information provided by GitHub. Instead of simply displaying profile details, it processes repositories, activity, and technologies to generate meaningful developer insights, compare two developers side-by-side, and provide AI-powered suggestions for improvement.
+DevScope AI is a full-stack MERN application that analyzes GitHub developer profiles beyond the standard GitHub dashboard. It processes repositories, activity, programming languages, and technology usage to generate meaningful developer insights, compare developers side-by-side, and provide AI-powered recommendations using Google Gemini.
 
-The project is built with scalability and clean architecture in mind, following a layered backend structure using Express, service-based architecture, and reusable components.
-
----
-
-##  Live Demo
-
-**Frontend:** https://devscopeai-analyzer.netlify.app/(Netlify)_
-
-**Backend API:** https://devscope-ai-production.up.railway.app/(Railway + Docker)_
+The project follows a layered backend architecture with reusable service modules, RESTful APIs, caching, and Dockerized deployment.
 
 ---
 
-##  Features
+# Live Demo
 
-###  GitHub Profile Search
+### Frontend (Netlify)
+
+https://devscopeai-analyzer.netlify.app/
+
+### Backend API (Railway + Docker)
+
+https://devscope-ai-production.up.railway.app/
+
+### Docker Hub
+
+Backend:
+https://hub.docker.com/r/priyanshudv/devscope-backend
+
+Frontend:
+https://hub.docker.com/r/priyanshudv/devscope-frontend
+
+---
+
+# Deployment Architecture
+
+```text
+                 User
+                   │
+                   ▼
+        React Frontend (Netlify)
+                   │
+             HTTPS REST API
+                   │
+                   ▼
+      Docker Container (Railway)
+                   │
+        Node.js + Express API
+                   │
+        ┌──────────┴──────────┐
+        ▼                     ▼
+ GitHub REST API      Google Gemini AI
+        │
+        ▼
+   MongoDB Atlas
+```
+
+---
+
+# Docker
+
+Both frontend and backend are containerized using Docker to provide consistent and reproducible deployments.
+
+## Pull Images
+
+### Backend
+
+```bash
+docker pull priyanshudv/devscope-backend:latest
+```
+
+### Frontend
+
+```bash
+docker pull priyanshudv/devscope-frontend:latest
+```
+
+## Run Backend
+
+```bash
+docker run -p 3000:3000 --env-file .env priyanshudv/devscope-backend:latest
+```
+
+## Run Frontend
+
+```bash
+docker run -p 5173:5173 priyanshudv/devscope-frontend:latest
+```
+
+---
+
+# Features
+
+## GitHub Profile Search
 
 - Search any public GitHub username
-- View profile information
 - Repository listing
 - Recent GitHub activity
 - Language distribution
@@ -29,25 +97,25 @@ The project is built with scalability and clean architecture in mind, following 
 
 ---
 
-###  Developer Analytics
+## Developer Analytics
 
-Instead of showing only GitHub data, DevScope AI calculates custom developer metrics such as:
+Generate custom developer metrics including:
 
-- Total Repositories
-- Total Stars
-- Total Forks
+- Repository Count
+- Stars
+- Forks
 - Repository Size
-- Most Used Language
-- Technology Distribution
+- Language Distribution
+- Technology Diversity
 - Repository Quality Score
 - Activity Score
 - Overall Developer Score
 
 ---
 
-###  Compare Two Developers
+## Compare Developers
 
-Compare two GitHub profiles side by side.
+Compare two GitHub profiles side-by-side.
 
 Comparison includes:
 
@@ -56,112 +124,98 @@ Comparison includes:
 - Stars
 - Forks
 - Technology Diversity
-- Activity
-- Developer Score
+- Activity Score
+- Overall Developer Score
 
-The comparison is displayed using visual progress bars and statistics for easier understanding.
+Visual progress bars and statistics simplify comparison.
 
 ---
 
-### 🤖 AI Powered Feedback
+## AI-Powered Insights
 
-Using Google Gemini AI, the application generates:
+Google Gemini generates:
 
 - Strengths
 - Weaknesses
-- Improvement Suggestions
 - GitHub Profile Review
 - Learning Recommendations
+- Improvement Suggestions
 - Career Advice
 
-The AI explains the backend-generated analytics instead of calculating statistics itself.
+The backend computes developer metrics, while Gemini interprets them to produce actionable feedback.
 
 ---
 
-###  Smart Caching
+## Smart Caching
 
-To improve performance and reduce unnecessary GitHub API requests, searched profiles are cached.
+Frequently searched GitHub profiles are cached to:
 
-Benefits:
-
-- Faster repeated searches
-- Reduced API calls
-- Better scalability
+- Reduce GitHub API requests
+- Improve response time
+- Enhance scalability
 
 ---
 
-##  Backend Architecture
+# Backend Architecture
 
-The backend follows a layered architecture.
-
-```
-Client
-    │
-    ▼
-Routes
-    │
-    ▼
-Controllers
-    │
-    ▼
-Services
-    │
-    ├── GitHub Service
-    ├── Statistics Service
-    ├── Cache Service
-    └── AI Service
-    │
-    ▼
-Utilities
-    │
-    ▼
-External APIs / Database
+```text
+               Client
+                  │
+                  ▼
+             Express Routes
+                  │
+                  ▼
+            Controllers
+                  │
+                  ▼
+              Services
+      ┌─────────┼─────────┐
+      ▼         ▼         ▼
+ GitHub API  Analytics   AI Service
+      │         │
+      └────┬────┘
+           ▼
+      Cache Layer
+           │
+           ▼
+      MongoDB Atlas
 ```
 
-Each layer has a single responsibility, making the project easier to maintain and extend.
-
 ---
 
-##  Tech Stack
+# Tech Stack
 
-### Frontend
+## Frontend
 
 - React.js
 - Vite
 - Tailwind CSS
 - Axios
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
 
-### APIs
+## APIs
 
 - GitHub REST API
 - Google Gemini API
 
-### DevOps
+## DevOps
 
 - Docker
-- Railway (Deployment)
-
-### AI
- 
-- Gemini
-
-### Deployment
-
-- Frontend → Vercel
-- Backend → Railway
+- Railway
+- Netlify
+- MongoDB Atlas
 
 ---
 
-##  Project Structure
+# Project Structure
 
-```
+```text
 DevScope-AI
 │
 ├── backend
@@ -172,26 +226,28 @@ DevScope-AI
 │   ├── routes
 │   ├── services
 │   ├── utils
-│   └── validators
+│   ├── validators
+│   ├── package.json
+│   └── Dockerfile
 │
 └── frontend
-    ├── components
-    ├── pages
-    ├── services
-    └── utils
+    ├── src
+    ├── public
+    ├── package.json
+    └── Dockerfile
 ```
 
 ---
 
-##  Getting Started
+# Getting Started
 
-### Clone Repository
+## Clone Repository
 
 ```bash
-git clone https://github.com/Priyanshu57005/DevScope-AI
+git clone https://github.com/Priyanshu57005/DevScope-AI.git
 ```
 
-### Backend
+## Backend
 
 ```bash
 cd backend
@@ -199,36 +255,41 @@ npm install
 npm run dev
 ```
 
-### Frontend
+## Frontend
 
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-## 🐳 Docker
 
-### Build Images
+---
+
+# Docker
+
+## Build Images
 
 ```bash
 docker build -t devscope-backend ./backend
+
 docker build -t devscope-frontend ./frontend
 ```
 
-### Run Backend
+## Run Backend
 
 ```bash
 docker run -p 3000:3000 --env-file backend/.env devscope-backend
 ```
 
-### Run Frontend
+## Run Frontend
 
 ```bash
 docker run -p 5173:5173 devscope-frontend
 ```
+
 ---
 
-## 🔑 Environment Variables
+# Environment Variables
 
 Create a `.env` file inside the backend directory.
 
@@ -246,60 +307,65 @@ REDIS_URL=
 
 ---
 
-##  Real World Concepts Used
+# System Design Highlights
 
-This project is designed to demonstrate concepts commonly used in production backend systems.
-
-- Clean Architecture
+- Layered Backend Architecture
 - Service Layer Pattern
-- REST API Design
-- Promise.all() for parallel API requests
-- API Response Standardization
-- Error Handling Middleware
-- Global Exception Handling
-- Data Aggregation
-- AI Integration
-- Caching Strategy
-- Modular Backend Structure
+- RESTful API Design
+- Modular Codebase
+- Promise.all() for Parallel API Requests
+- Global Error Handling Middleware
+- AI Integration using Google Gemini
+- GitHub API Aggregation
+- Smart Caching Strategy
 - Dockerized Deployment
+- Cloud Database using MongoDB Atlas
 
 ---
 
-##  Why This Project?
+# Future Improvements
 
-GitHub provides a lot of information, but it doesn't explain what that information means.
-
-DevScope AI aims to bridge that gap by converting raw GitHub data into meaningful insights that can help developers understand their profile better, compare themselves with others, and identify areas for improvement.
-
----
-
-##  Future Improvements
-
-- Redis Cache
+- Redis Caching
 - GitHub Contribution Heatmap
-- Organization Analysis
 - Repository Trend Analysis
+- Organization Analytics
 - Team Comparison
-- PDF Report Generation
-- Leaderboard
 - Authentication
 - Saved Searches
-- Advanced Charts
+- PDF Report Generation
+- Advanced Data Visualizations
+- CI/CD Pipeline with GitHub Actions
 
 ---
 
-##  Contributing
+# Contributing
 
-Suggestions and improvements are always welcome.
+Contributions, suggestions, and improvements are welcome.
 
-Feel free to fork the repository and create a pull request.
+Feel free to fork the repository and submit a pull request.
 
 ---
 
-##  License
+# License
 
 This project is licensed under the MIT License.
 
 ---
 
-### Made with ❤️ by Priyanshu Gautam
+# Author
+
+**Priyanshu Gautam**
+
+B.Tech Information Technology
+
+Aspiring Software Development Engineer (SDE)
+
+GitHub:
+https://github.com/Priyanshu57005
+
+LinkedIn:
+https://www.linkedin.com/in/priyanshu-gautam-12b5a0298
+
+---
+
+⭐ If you found this project useful, consider giving it a star on GitHub.
